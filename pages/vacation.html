@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Ben and Alexis' Vacations - {{ .Vacation.Name }}</title>
+        <link rel="stylesheet" href="/static/base.css" />
+        <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+    </head>
+    <body hx-boost="true">
+        <header>
+            <h1>Alexis and Ben's Vacation Pictures</h1>        
+            <nav>
+                <a href="/">Home</a>
+            </nav>
+        </header>    
+        <div class="main-content">
+            <h2>{{ .Vacation.Name }}</h2>
+
+            <div class="thumbnails">
+                //TODO: Pickup on adding a link to the specific image being shown. It needs to use the item index
+                {{ range .Vacation.Pictures }}
+                    <img src="{{ .ThumbnailPath }}" height="100" />
+                {{ else }}
+                    <p>No pictures found!</p>
+                {{ end }}
+            </div>
+        </div>
+    </body>
+</html>

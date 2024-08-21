@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Ben and Alexis' Vacations!</title>
+        <link rel="stylesheet" href="/static/base.css" />
+        <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+    </head>
+    <body hx-boost="true">
+        <header>
+            <h1>Alexis and Ben's Vacation Pictures</h1>        
+            <nav>
+                <a href="/">Home</a>
+            </nav>
+        </header>    
+
+
+        <div class="main-content">
+            <h2>Vacations</h2>        
+            <div class="vacations">
+                {{ range .Vacations }}
+                    <div class="vacation">
+                        <a href="/vacations?id={{ .ID }}">
+                            <h2>{{ .Name }}<h2>
+                            <img src="{{ .MainThumbnail }}" />
+                        </a>
+                    </div>
+                {{ else }}
+                  <h2> No vacations found! </h2>
+                {{ end }}
+            </div>
+        </div>
+    </body>
+</html>

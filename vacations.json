@@ -1,0 +1,79 @@
+{
+  "vacations": [
+    {
+      "id": "punta-2023",
+      "name": "Punta Cana 2023",
+      "mainThumbnail": "https://msyke-vaca-pictures.s3.amazonaws.com/1e131106-6fad-46b3-ba13-6c24e314b7cd-thumb.webp",
+      "pictures": [
+        {
+          "title": "My Picture",
+          "thumbnailPath": "",
+          "imagePath": "",
+          "tags": []
+        },
+        {
+          "title": "PXL_20230627_153309534.jpg",
+          "description": "",
+          "thumbnailPath": "https://msyke-vaca-pictures.s3.amazonaws.com/1e131106-6fad-46b3-ba13-6c24e314b7cd-thumb.webp",
+          "imagePath": "https://msyke-vaca-pictures.s3.amazonaws.com/1e131106-6fad-46b3-ba13-6c24e314b7cd.webp",
+          "tags": []
+        },
+        {
+          "title": "PXL_20230627_153313799.jpg",
+          "description": "",
+          "thumbnailPath": "https://msyke-vaca-pictures.s3.amazonaws.com/1c2c4a04-e6d9-4a24-982e-ac0863069ae8-thumb.webp",
+          "imagePath": "https://msyke-vaca-pictures.s3.amazonaws.com/1c2c4a04-e6d9-4a24-982e-ac0863069ae8.webp",
+          "tags": []
+        },
+        {
+          "title": "PXL_20230627_153315843.jpg",
+          "description": "",
+          "thumbnailPath": "https://msyke-vaca-pictures.s3.amazonaws.com/c01e9220-d2ea-4998-9cba-be715a420ce6-thumb.webp",
+          "imagePath": "https://msyke-vaca-pictures.s3.amazonaws.com/c01e9220-d2ea-4998-9cba-be715a420ce6.webp",
+          "tags": []
+        },
+        {
+          "title": "PXL_20230627_153319496.jpg",
+          "description": "",
+          "thumbnailPath": "https://msyke-vaca-pictures.s3.amazonaws.com/cfa1e664-622e-4a0e-a4a3-4367c82c11a3-thumb.webp",
+          "imagePath": "https://msyke-vaca-pictures.s3.amazonaws.com/cfa1e664-622e-4a0e-a4a3-4367c82c11a3.webp",
+          "tags": []
+        },
+        {
+          "title": "PXL_20230627_153309534.jpg",
+          "description": "",
+          "thumbnailPath": "https://msyke-vaca-pictures.s3.amazonaws.com/02565d39-89f6-4f9f-b696-6fdd9adeebce-thumb.webp",
+          "imagePath": "https://msyke-vaca-pictures.s3.amazonaws.com/02565d39-89f6-4f9f-b696-6fdd9adeebce.webp",
+          "tags": []
+        }
+      ]
+    },
+    {
+      "id": "mex-2024",
+      "name": "Mexico 2024",
+      "mainThumbnail": "https://msyke-vaca-pictures.s3.amazonaws.com/1e131106-6fad-46b3-ba13-6c24e314b7cd-thumb.webp",
+      "pictures": [
+        {
+          "title": "My Picture",
+          "thumbnailPath": "",
+          "imagePath": "",
+          "tags": []
+        }
+      ]
+    },
+    {
+      "id": "alaska-2024",
+      "name": "Alaska 2024",
+      "mainThumbnail": "https://msyke-vaca-pictures.s3.amazonaws.com/1e131106-6fad-46b3-ba13-6c24e314b7cd-thumb.webp",
+      "pictures": [
+        {
+          "title": "My Picture",
+          "description": "",
+          "thumbnailPath": "",
+          "imagePath": "",
+          "tags": []
+        }
+      ]
+    }
+  ]
+}
