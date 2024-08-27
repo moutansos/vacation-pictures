@@ -6,16 +6,35 @@ body {
     --linkColor: hsl(204, 100%, 40%);
     --standardFontSize: 1.21rem;
     --standardBorderRadus: 0.8rem;
+    --borderRadiusColor: rgba(255, 255, 255, 0.1);
 
     color: var(--primaryText);
     background-color: var(--primaryBackground);
     margin-left: auto;
     margin-right: auto;
     padding: 2em 1em 1em;
-    max-width: 51em;
+    max-width: 75em;
+
+    font-family: 'Georgia', serif;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    cursor: pointer;
+    user-select: none;
+    text-shadow: 0 0 5px black;
+}
+
 .main-centent {
-    max-width: 50em;
+    max-width: 75em;
 }
 
 .vacations {
@@ -33,4 +52,138 @@ body {
 .vacation img {
     height: 5em;
     border-radius: var(--standardBorderRadus);
+    box-shadow: 
+        2px 2px 3px var(--borderRadiusColor),
+        0px 0px 4px var(--borderRadiusColor);
 }
+
+.pic-viewer {
+    width: 100%;
+    max-height: 90vh;
+    font-family: 'Tahoma', sans-serif;
+}
+
+.view-box {
+    position: relative;
+    background-color: black;
+    aspect-ratio: 16/9;
+}
+
+
+.view-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.view-box-overlay {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    transition: opacity 0.2s;
+}
+
+.nav-overlay {
+    z-index: 20;
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+}
+
+
+.nav-overlay-zone {
+    height: 80%;
+    width: 50%;
+    padding-top: 30%;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+@media (min-width: 600px) and (orientation: portrait) {
+    .view-box {
+        aspect-ratio: 3/4;
+    }
+
+    .nav-overlay-zone {
+        padding-top: 60%;
+    }
+}
+
+.nav-overlay-left {
+    justify-content: flex-start;
+}
+
+.nav-overlay-right {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.view-box:hover .view-box-overlay {
+    opacity: 1;
+}
+
+.view-box-overlay-header {
+    width: 100%;
+    height: 50%;
+    box-shadow: inset 25px 200px 127px -95px rgba(0,0,0,0.84);
+}
+
+.view-box-overlay-footer {
+    width: 100%;
+    height: 50%;
+    box-shadow: inset 25px -200px 127px -95px rgba(0,0,0,0.84);
+    display: flex;
+    align-items: flex-end;
+    padding-left: 1em;
+}
+
+.view-box-footer-right {
+    margin-left: auto;
+    padding-right: 1em;
+    z-index: 50;
+}
+
+.tag {
+    background-color: var(--primaryAccent);
+    color: var(--primaryText);
+    padding: 0.2em 0.5em;
+    border-radius: var(--standardBorderRadus);
+    margin-right: 0.5em;
+    font-size: 0.8em;
+}
+
+.view-box-overlay h3 {
+    padding: 1rem;
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.thumbnails {
+    display: flex;
+    flex-direction: row;
+    gap: 0.1rem;
+    height: 8rem;
+    overflow-x: auto;
+    width: 100%;
+    background-color: black;
+    padding-top: 0.5em;
+}
+
+.selected-thumbnail {
+    border: 3px solid var(--primaryAccent);
+}
+
+.full-screen-pic-viewer .view-box {
+    height: calc(100vh - 8rem);
+    aspect-ratio: initial;
+}
+
+.icon-link {
+    color: white;
+    text-decoration: none;
+}
+

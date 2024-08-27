@@ -1,28 +1,102 @@
+{{ $vacaId := .Vacation.ID }}
+{{ $next := .NextPicIndex }}
+{{ $prev := .PrevPicIndex }}
+{{ $current := .CurrentPicIndex }}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Ben and Alexis' Vacations - {{ .Vacation.Name }}</title>
         <link rel="stylesheet" href="/static/base.css" />
         <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     <body hx-boost="true">
         <header>
-            <h1>Alexis and Ben's Vacation Pictures</h1>        
-            <nav>
-                <a href="/">Home</a>
-            </nav>
+            <h1><a class="icon-link" href="/"><span class="material-symbols-outlined"> home </span></a> Alexis and Ben's Vacation Pictures</h1>        
         </header>    
         <div class="main-content">
             <h2>{{ .Vacation.Name }}</h2>
 
-            <div class="thumbnails">
-                //TODO: Pickup on adding a link to the specific image being shown. It needs to use the item index
-                {{ range .Vacation.Pictures }}
-                    <img src="{{ .ThumbnailPath }}" height="100" />
-                {{ else }}
-                    <p>No pictures found!</p>
-                {{ end }}
+            <div class="pic-viewer">
+                <div id="view-box" class="view-box" data-idx="{{ $current }}">
+                    <img src="{{ .CurrentPic.ImagePath }}" lazy="true" />
+                    <div class="view-box-overlay">
+                        <div class="view-box-overlay-header">
+                            <h3>{{ .CurrentPic.Title }}</h3>
+                        </div>
+                        <div class="view-box-overlay-footer">
+                            <p>
+                                {{ .CurrentPic.Description }}
+                                <br />
+                                <br />
+                                {{ range .CurrentPic.Tags }}<span class="tag">{{ . }}</span>{{ else }}<br />{{ end }}
+                            </p>
+                            <span id="full-screen" 
+                                class="material-symbols-outlined view-box-footer-right"
+                                onclick="enterFullScreenViewBox()">
+                                fullscreen
+                            </span>
+                        </div>
+                    </div>
+                    <div class="view-box-overlay nav-overlay">
+                        {{ if $prev }}
+                            <div class="nav-overlay-zone nav-overlay-left" 
+                                hx-get="/vacations?id={{ $vacaId }}&pic={{ $prev }}" 
+                                hx-target=".view-box" 
+                                hx-select=".view-box" 
+                                hx-swap="outerHTML"
+                                hx-select-oob="#thumbnail-{{ $prev }}:outerHTML"
+                                hx-push-url="true">
+                                <span class="material-symbols-outlined">
+                                    arrow_back_ios
+                                </span>
+                            </div>
+                        {{ else }}
+                            <div class="nav-overlay-zone nav-overlay-left">
+                            </div>
+                        {{ end }}
+                        {{ if $next }}
+                            <div class="nav-overlay-zone nav-overlay-right" 
+                                hx-get="/vacations?id={{ $vacaId }}&pic={{ $next }}" 
+                                hx-target=".view-box" 
+                                hx-select=".view-box" 
+                                hx-swap="outerHTML"
+                                hx-select-oob="#thumbnail-{{ $next }}:outerHTML"
+                                hx-push-url="true">
+                                <span class="material-symbols-outlined">
+                                    arrow_forward_ios
+                                </span>
+                            </div>
+                        {{ else }}
+                            <div class="nav-overlay-zone nav-overlay-right">
+                            </div>
+                        {{ end }}
+                    </div>
+                </div>
+
+                <div class="thumbnails">
+                    {{ range $idx, $el := .Vacation.Pictures }}
+                        <a 
+                            hx-get="/vacations?id={{ $vacaId }}&pic={{ $idx }}"
+                            hx-target=".view-box" 
+                            hx-select=".view-box" 
+                            hx-swap="outerHTML"
+                            hx-select-oob="#thumbnail-{{ $idx }}:outerHTML"
+                            hx-push-url="true">
+                            <img id="thumbnail-{{ $idx }}" 
+                                {{ if eq $idx $current }}class="selected-thumbnail"{{ end }}
+                                lazy="true"
+                                data-idx="{{ $idx }}"
+                                src="{{ $el.ThumbnailPath }}" 
+                                height="100" />
+                        </a>
+                    {{ else }}
+                        <p>No pictures found!</p>
+                    {{ end }}
+                </div>
             </div>
         </div>
+        <script src="/static/vacation.js" type="module"></script>
     </body>
 </html>

@@ -26,7 +26,7 @@ function Generate-Thumbnail($id, $imagePath) {
 
     $resizedTempFile = "$tempDirectory/$id-resized.$extension"
     Write-Host "Resizing..."
-    convert $imagePath -thumbnail 250x250 $resizedTempFile
+    convert $imagePath -thumbnail 3000x250 $resizedTempFile
 
     Write-Host "Converting to webp..."
     cwebp -q 80 -o $tempFileLocation $resizedTempFile
@@ -54,6 +54,7 @@ function Generate-Image([guid]$id, $imagePath) {
 }
 
 $imageFiles = Get-ChildItem $PathToUpload -File
+$imageFiles = $imageFiles | Where-Object { $_.Extension -match "jpg|jpeg|png" }
 
 $vacationsFile = Resolve-Path "$PSScriptRoot/../vacations.json"
 [string]$vacationsDataString = Get-Content $vacationsFile -Raw

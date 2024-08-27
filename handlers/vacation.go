@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"net/http"
+	"strconv"
 	"vacation-pictures/data"
 	"vacation-pictures/infra"
 
@@ -24,6 +25,10 @@ func VacationHandler(db *infra.Db) func(http.ResponseWriter, *http.Request) {
 
 type VacationPageData struct {
     Vacation *data.Vacation
+    CurrentPic *data.VacaPicture
+    NextPicIndex *int
+    PrevPicIndex *int
+    CurrentPicIndex int
 }
 
 func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
@@ -38,10 +43,15 @@ func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
 
     values := r.URL.Query()
     id := values.Get("id")
+    pic := values.Get("pic")
 
     if id == "" {
         http.Error(w, "Id was blank!", http.StatusNotFound)
         return
+    }
+
+    if pic == "" {
+        pic = "0"
     }
 
 
@@ -51,8 +61,40 @@ func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    picIndex, err := strconv.Atoi(pic)
+    if err != nil {
+        http.Error(w, "Invalid picture index", http.StatusBadRequest)
+        return
+    }
+    
+
+    if picIndex < 0 || picIndex > len(vacation.Pictures) {
+        http.Error(w, "Picture index out of range", http.StatusBadRequest)
+        return
+    }
+
+    currentPic := vacation.Pictures[picIndex]
+
+    var nextPicIndex *int
+    var prevPicIndex *int
+
+    calculatedNextPicIndex := picIndex + 1
+    calculatedPrevPicIndex := picIndex - 1
+
+    if calculatedNextPicIndex < len(vacation.Pictures) {
+        nextPicIndex = &calculatedNextPicIndex
+    }
+
+    if calculatedPrevPicIndex >= 0 {
+        prevPicIndex = &calculatedPrevPicIndex
+    }
+
     pageData := VacationPageData {
         Vacation: vacation,
+        CurrentPic: &currentPic,
+        NextPicIndex: nextPicIndex,
+        PrevPicIndex: prevPicIndex,
+        CurrentPicIndex: picIndex,
     }
 
     var b bytes.Buffer
