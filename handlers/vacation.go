@@ -29,6 +29,7 @@ type VacationPageData struct {
     NextPicIndex *int
     PrevPicIndex *int
     CurrentPicIndex int
+	CurrentPicStyle string
 }
 
 func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
@@ -95,7 +96,12 @@ func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
         NextPicIndex: nextPicIndex,
         PrevPicIndex: prevPicIndex,
         CurrentPicIndex: picIndex,
+		CurrentPicStyle: "",
     }
+
+	if currentPic.Rotate != nil {
+		pageData.CurrentPicStyle = "transform: rotate(" + *currentPic.Rotate + ");"
+	}
 
     var b bytes.Buffer
     templateBuff := bufio.NewWriter(&b)

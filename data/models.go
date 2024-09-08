@@ -17,4 +17,5 @@ type VacaPicture struct {
 	ThumbnailPath string   `json:"thumbnailPath"`
 	ImagePath     string   `json:"imagePath"`
 	Tags          []string `json:"tags"`
+	Rotate        *string  `json:"rotate"`
 }

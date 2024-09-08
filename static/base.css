@@ -149,7 +149,7 @@ body {
 
 .tag {
     background-color: var(--primaryAccent);
-    color: var(--primaryText);
+    color: black;
     padding: 0.2em 0.5em;
     border-radius: var(--standardBorderRadus);
     margin-right: 0.5em;

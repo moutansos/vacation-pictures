@@ -20,7 +20,7 @@
 
             <div class="pic-viewer">
                 <div id="view-box" class="view-box" data-idx="{{ $current }}">
-                    <img src="{{ .CurrentPic.ImagePath }}" lazy="true" />
+                    <img style="{{ .CurrentPicStyle }}" src="{{ .CurrentPic.ImagePath }}" lazy="true" />
                     <div class="view-box-overlay">
                         <div class="view-box-overlay-header">
                             <h3>{{ .CurrentPic.Title }}</h3>
