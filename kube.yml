@@ -17,7 +17,7 @@ spec:
           image: ghcr.io/moutansos/vacationpictures:${buildid}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8081
       imagePullSecrets:
         - name: ghcr-secret
       nodeSelector:
@@ -32,7 +32,7 @@ spec:
     - name: http
       port: 80
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8081
   selector:
     app: vacationpictures
   type: ClusterIP

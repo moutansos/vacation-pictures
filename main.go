@@ -30,7 +30,7 @@ func main() {
     http.HandleFunc("/", handlers.IndexHandler(db))
     http.HandleFunc("/vacations", handlers.VacationHandler(db))
 
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    log.Fatal(http.ListenAndServe(":8081", nil))
 }
 
 func fixMimeTypes() {
