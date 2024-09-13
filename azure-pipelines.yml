@@ -23,7 +23,7 @@ steps:
 
 - script: |
     sed -i.bak "s/\${buildid}/$(Build.BuildId)/" ./kube.yml
-    sed -i.bak "s/\${slackurl}/$(SLACK_WEBHOOK_URL)/" ./kube.yml
+    sed -i.bak "s,\${slackurl},$SLACK_WEBHOOK_URL," ./kube.yml
     echo "Test: $SLACK_WEBHOOK_URL"
     mkdir ./dist
   displayName: 'Kubernetes Config File Container Tag Specification'

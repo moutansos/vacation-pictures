@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vacationpictures
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vacationpictures
+  template:
+    metadata:
+      labels:
+        app: vacationpictures
+    spec:
+      containers:
+        - name: vacationpictures
+          image: ghcr.io/moutansos/vacationpictures:${buildid}
+          ports:
+            - name: http
+              containerPort: 8081
+          env:
+            - name: SLACK_WEBHOOK_URL
+              value: ${slackurl}
+      imagePullSecrets:
+        - name: ghcr-secret
+      nodeSelector:
+        kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vacationpictures
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: vacationpictures
+  type: ClusterIP
