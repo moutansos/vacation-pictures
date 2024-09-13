@@ -3,6 +3,7 @@ package handlers
 import (
 	"bufio"
 	"bytes"
+	"log/slog"
 	"net/http"
 	"strconv"
 	"vacation-pictures/data"
@@ -11,11 +12,11 @@ import (
 	"github.com/philippta/go-template/text/template"
 )
 
-func VacationHandler(db *infra.Db) func(http.ResponseWriter, *http.Request) {
+func VacationHandler(db *infra.Db, logger *slog.Logger) func(http.ResponseWriter, *http.Request) {
     return func(w http.ResponseWriter, r *http.Request) {
         switch r.Method {
         case http.MethodGet:
-            getVacation(db, w, r)
+            getVacation(db, w, r, logger)
             break
         default:
             http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -32,13 +33,13 @@ type VacationPageData struct {
 	CurrentPicStyle string
 }
 
-func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
+func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request, logger *slog.Logger) {
     tmpl, err := template.ParseFiles(
         "pages/vacation.html",
     )
 
     if err != nil {
-        logError(w, err, "Error parsing templates")
+        logError(w, err, "Error parsing templates", logger)
         return
     }
 
@@ -107,13 +108,13 @@ func getVacation(db *infra.Db, w http.ResponseWriter, r *http.Request) {
     templateBuff := bufio.NewWriter(&b)
     err = tmpl.Execute(templateBuff, pageData)
     if err != nil {
-        logError(w, err, "Unable to execute template for this page")
+        logError(w, err, "Unable to execute template for this page", logger)
         return
     }
 
     err = templateBuff.Flush()
     if err != nil {
-        logError(w, err, "")
+        logError(w, err, "", logger)
         return
     }
 
