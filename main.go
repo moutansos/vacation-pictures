@@ -24,13 +24,13 @@ func main() {
     var loggerWebhookUrl = os.Getenv("SLACK_WEBHOOK_URL")
 	const channel = "alerts"
 	logger := slog.New(slogmulti.Fanout(
-		slogslack.Option{Level: slog.LevelInfo, WebhookURL: loggerWebhookUrl, Channel: channel, AddSource: true}.NewSlackHandler(),
+		slogslack.Option{Level: slog.LevelWarn, WebhookURL: loggerWebhookUrl, Channel: channel, AddSource: true}.NewSlackHandler(),
 		charmlog.NewWithOptions(os.Stdout, charmlog.Options{ReportCaller: true, ReportTimestamp: true}),
 	))
 	logger = logger.
 		With("app", "vacation-pictures")
 
-	logger.Info("Starting vacations application...")
+	logger.Warn("Starting vacations application...")
 	fixMimeTypes(logger)
 
 	db, err := infra.ConnectDb("vacations.json")
