@@ -20,7 +20,7 @@ spec:
               containerPort: 8081
           env:
             - name: SLACK_WEBHOOK_URL
-              value: ${SLACK_WEBHOOK_URL}
+              value: ${slackurl}
       imagePullSecrets:
         - name: ghcr-secret
       nodeSelector:
