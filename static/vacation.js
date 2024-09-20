@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-
 let isFullScreen = false;
 async function enterFullscreen() {
     const picViewer = document.querySelector('.pic-viewer');

@@ -27,10 +27,24 @@ func main() {
 		slogslack.Option{Level: slog.LevelWarn, WebhookURL: loggerWebhookUrl, Channel: channel, AddSource: true}.NewSlackHandler(),
 		charmlog.NewWithOptions(os.Stdout, charmlog.Options{ReportCaller: true, ReportTimestamp: true}),
 	))
-	logger = logger.
-		With("app", "vacation-pictures")
 
-	logger.Warn("Starting vacations application...")
+	hostname, err := os.Hostname()
+	if err != nil {
+		logger.Error("Error getting hostname", "error", err)
+		panic(err)
+	}
+
+	logger = logger.
+		With("app", "vacation-pictures").
+		With("host", hostname)
+
+
+	appEnv := os.Getenv("APP_ENV")
+	if appEnv != "local" {
+		logger.Warn("Starting vacations application in prod mode...")
+	} else {
+		logger.Info("Starting vacations application in local mode...")
+	}
 	fixMimeTypes(logger)
 
 	db, err := infra.ConnectDb("vacations.json")
@@ -53,6 +67,8 @@ func main() {
 
 	http.HandleFunc("/", handlers.IndexHandler(db, logger))
 	http.HandleFunc("/vacations", handlers.VacationHandler(db, logger))
+
+	http.HandleFunc("/api/log", handlers.ErrorHandler(logger))
 
 	err = http.ListenAndServe(":8081", nil)
 	if err != nil {
