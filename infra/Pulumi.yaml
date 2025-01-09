@@ -1,0 +1,7 @@
+name: vacation-pictures-infra
+description: Infrastructure code for the Vacation Pictures application
+runtime: go
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: go

@@ -11,6 +11,7 @@ import (
 
 	charmlog "github.com/charmbracelet/log"
 	"github.com/joho/godotenv"
+	"github.com/moutansos/vacation-pictures/common"
 	slogmulti "github.com/samber/slog-multi"
 	slogslack "github.com/samber/slog-slack/v2"
 )
@@ -21,7 +22,7 @@ func main() {
         log.Println("No .env file found. No environment variables loaded from file")
 	}
 
-    var loggerWebhookUrl = os.Getenv("SLACK_WEBHOOK_URL")
+    var loggerWebhookUrl = os.Getenv(common.VACA_SLACK_WEBHOOK_URL)
 	const channel = "alerts"
 	logger := slog.New(slogmulti.Fanout(
 		slogslack.Option{Level: slog.LevelWarn, WebhookURL: loggerWebhookUrl, Channel: channel, AddSource: true}.NewSlackHandler(),

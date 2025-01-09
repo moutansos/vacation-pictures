@@ -1,0 +1,55 @@
+name: Build and Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main  # Change this if you want to trigger on a different branch
+env:
+  REPO_URL: ghcr.io/moutansos/vacationpictures:${{ github.sha }}
+permissions:
+  contents: read
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v6.9.0
+      with:
+        context: .
+        push: true
+        tags: ${{ env.REPO_URL }}
+  deploy_to_k8s:
+    runs-on: self-hosted
+    needs: build_and_push
+    permissions:
+      packages: read
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+    - name: Deploy 
+      run: |
+        export PULUMI_ACCESS_TOKEN="${{ env.PULUMI_ACCESS_TOKEN }}"
+        export BW_ACCESS_TOKEN="${{ secrets.BW_ACCESS_TOKEN }}"
+        export PULUMI_K8S_ENABLE_PATCH_FORCE="true"
+        curl -fsSL https://get.pulumi.com | sh
+        pulumi login --non-interactive
+        go env -w CGO_ENABLED=1
+        go env -w CC=musl-gcc
+        cd infra/
+        pulumi stack select dev --non-interactive
+        pulumi --non-interactive config -s dev set containerTag "${{ github.sha }}"
+        pulumi refresh --non-interactive --yes
+        pulumi up --non-interactive --yes

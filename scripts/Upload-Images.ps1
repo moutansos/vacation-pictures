@@ -56,7 +56,7 @@ function Generate-Image([guid]$id, $imagePath) {
 $imageFiles = Get-ChildItem $PathToUpload -File
 $imageFiles = $imageFiles | Where-Object { $_.Extension -match "jpg|jpeg|png" }
 
-$vacationsFile = Resolve-Path "$PSScriptRoot/../vacations.json"
+$vacationsFile = Resolve-Path "$PSScriptRoot/../src/vacations.json"
 [string]$vacationsDataString = Get-Content $vacationsFile -Raw
 [pscustomobject]$vacationsData = $vacationsDataString | ConvertFrom-Json
 

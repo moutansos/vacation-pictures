@@ -1,0 +1,4 @@
+package common
+
+const VACA_SLACK_WEBHOOK_URL = "VACA_SLACK_WEBHOOK_URL"
+const KUBECONFIG = "KUBECONFIG"
