@@ -28,7 +28,7 @@ COPY --from=builder /app/main /app/main
 # Copy Assets
 COPY --from=builder /app/src/static /app/static
 COPY --from=builder /app/src/pages /app/pages
-COPY --from=builder /app/src/vacations.json /app/pages/vacations.json
+COPY --from=builder /app/src/vacations.json /app/vacations.json
 
 # Ensure the binary is executable
 RUN chmod +x /app/main
